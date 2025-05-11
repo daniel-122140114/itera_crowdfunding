@@ -1,19 +1,24 @@
+from pydantic import ValidationError
 from pyramid.view import view_config
 from pyramid.response import Response
+from itera_crowdfunding.schemas.campaign import CampaignCreate, CampaignUpdate
 from itera_crowdfunding.supabase_client import supabase
-from itera_crowdfunding.middleware import auth_required,admin_required
+from itera_crowdfunding.middleware import auth_required
 import json
 
 @view_config(route_name='campaigns',request_method='GET', renderer='json')
 def get_campaigns(request):
-    print(request.method)  # akan cetak GET atau POST
     res = supabase.table('campaigns').select("*").execute()
     return res.data
 
 @view_config(route_name='campaigns', request_method='POST', renderer='json')
-@admin_required
+@auth_required
 def create_campaign(request):
-    body = request.json_body
+    try:
+        body = CampaignCreate(**request.json_body).model_dump()
+    except ValidationError as e:
+        return Response(status=400, json_body={"errors": e.errors()})
+    
     res = supabase.table('campaigns').insert(body).execute()
     return res.data
 
@@ -26,9 +31,14 @@ def get_campaign(request):
     return Response(status=404, json_body={'error': 'Not found'})
 
 @view_config(route_name='campaign', request_method='PUT', renderer='json')
+@auth_required
 def update_campaign(request):
     campaign_id = request.matchdict['id']
-    data = request.json_body
+    try:
+        data = CampaignUpdate(**request.json_body).model_dump(exclude_unset=True)
+    except ValidationError as e:
+        return Response(status=400, json_body={"errors": e.errors()})
+
     res = supabase.table('campaigns').update(data).eq("id", campaign_id).execute()
     return res.data
 

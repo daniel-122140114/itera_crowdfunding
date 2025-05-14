@@ -4,7 +4,7 @@ def includeme(config):
     config.add_route('campaigns', '/campaigns')
     config.add_route('campaign', '/campaigns/{id}')
     config.add_route('get_top_donation','/donations/top')
-    config.add_route('get_campaign_donations','/campaign/{id}/donations')
+    config.add_route('get_campaign_donations','/campaigns/{id}/donations')
     config.add_route('get_token','/token')
     config.add_route('donations', '/donations')
     config.add_route('donation', '/donations/{id}')

@@ -3,13 +3,13 @@ from typing import Optional, Literal
 from uuid import UUID
 
 class DonationBase(BaseModel):
-    campaign_id: Optional[int]
-    donor_id: Optional[str]
-    amount: Optional[float]
+    campaign_id: Optional[int] = None
+    donor_id: Optional[str] = None
+    amount: Optional[float] = None
     is_anonymous: Optional[bool] = False
-    message: Optional[str]
+    message: Optional[str] = None
     status: Optional[Literal['pending', 'paid', 'failed']] = 'pending'
-    payment_id: Optional[str]
+    payment_id: Optional[str] = None
 
 class DonationCreate(DonationBase):
     campaign_id: int

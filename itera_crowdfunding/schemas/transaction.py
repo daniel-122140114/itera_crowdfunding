@@ -4,16 +4,16 @@ from uuid import UUID
 from datetime import datetime
 
 class TransactionBase(BaseModel):
-    order_id: Optional[str]
-    donor_id: Optional[str]
-    campaign_id: Optional[int]
-    amount: Optional[float]
+    order_id: Optional[str] = None
+    donor_id: Optional[str] = None
+    campaign_id: Optional[int] = None
+    amount: Optional[float] = None
     payment_type: Optional[Literal['bank_transfer', 'gopay', 'shopeepay', 'qris', 'credit_card', 'indomaret', 'alfamart']]
     transaction_status: Optional[Literal['pending', 'settlement', 'cancel', 'expire']]
-    transaction_time: Optional[datetime]
-    settlement_time: Optional[datetime]
-    va_numbers: Optional[str]
-    fraud_status: Optional[str]
+    transaction_time: Optional[datetime] = None
+    settlement_time: Optional[datetime] = None
+    va_numbers: Optional[str] = None
+    fraud_status: Optional[str] = None
 
 class TransactionCreate(TransactionBase):
     order_id: str

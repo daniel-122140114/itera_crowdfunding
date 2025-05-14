@@ -4,10 +4,10 @@ from uuid import UUID
 from datetime import datetime
 
 class WithdrawalBase(BaseModel):
-    campaign_id: Optional[int]
-    amount: Optional[float]
-    withdrawal_date: Optional[datetime]
-    created_by: Optional[str]
+    campaign_id: Optional[int] = None
+    amount: Optional[float] = None
+    withdrawal_date: Optional[datetime] = None
+    created_by: Optional[str] = None
     status: Optional[Literal['pending', 'approved', 'completed', 'rejected']] = 'pending'
 
 class WithdrawalCreate(WithdrawalBase):

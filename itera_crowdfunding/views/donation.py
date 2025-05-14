@@ -3,7 +3,7 @@ from pyramid.response import Response
 from itera_crowdfunding.supabase_client import supabase
 from itera_crowdfunding.schemas.donation import DonationCreate, DonationUpdate
 from pydantic import ValidationError
-
+from itera_crowdfunding.middleware import auth_required
 @view_config(route_name='donations', request_method='GET', renderer='json')
 def get_donations(request):
     res = supabase.table('donations').select("*").execute()
@@ -18,6 +18,7 @@ def get_donation(request):
     return Response(status=404, json_body={'error': 'Not found'})
 
 @view_config(route_name='donations', request_method='POST', renderer='json')
+@auth_required
 def create_donation(request):
     try:
         donation = DonationCreate(**request.json_body)
@@ -28,6 +29,7 @@ def create_donation(request):
     return res.data
 
 @view_config(route_name='donation', request_method='PUT', renderer='json')
+@auth_required
 def update_donation(request):
     donation_id = request.matchdict['id']
     try:
@@ -39,6 +41,7 @@ def update_donation(request):
     return res.data
 
 @view_config(route_name='donation', request_method='DELETE', renderer='json')
+@auth_required
 def delete_donation(request):
     donation_id = request.matchdict['id']
     supabase.table('donations').delete().eq("id", donation_id).execute()

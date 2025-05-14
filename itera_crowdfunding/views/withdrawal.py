@@ -3,13 +3,16 @@ from pyramid.response import Response
 from itera_crowdfunding.supabase_client import supabase
 from itera_crowdfunding.schemas.withdrawal import WithdrawalCreate, WithdrawalUpdate
 from pydantic import ValidationError
+from itera_crowdfunding.middleware import auth_required
 
 @view_config(route_name='withdrawals', request_method='GET', renderer='json')
+@auth_required
 def get_withdrawals(request):
     res = supabase.table('fund_withdrawals').select("*").execute()
     return res.data
 
 @view_config(route_name='withdrawal', request_method='GET', renderer='json')
+@auth_required
 def get_withdrawal(request):
     withdrawal_id = request.matchdict['id']
     res = supabase.table('fund_withdrawals').select("*").eq("id", withdrawal_id).execute()
@@ -18,6 +21,7 @@ def get_withdrawal(request):
     return Response(status=404, json_body={'error': 'Not found'})
 
 @view_config(route_name='withdrawals', request_method='POST', renderer='json')
+@auth_required
 def create_withdrawal(request):
     try:
         withdrawal = WithdrawalCreate(**request.json_body)
@@ -28,6 +32,7 @@ def create_withdrawal(request):
     return res.data
 
 @view_config(route_name='withdrawal', request_method='PUT', renderer='json')
+@auth_required
 def update_withdrawal(request):
     withdrawal_id = request.matchdict['id']
     try:
@@ -39,6 +44,7 @@ def update_withdrawal(request):
     return res.data
 
 @view_config(route_name='withdrawal', request_method='DELETE', renderer='json')
+@auth_required
 def delete_withdrawal(request):
     withdrawal_id = request.matchdict['id']
     supabase.table('fund_withdrawals').delete().eq("id", withdrawal_id).execute()

@@ -10,3 +10,5 @@ def includeme(config):
     config.add_route('transaction', '/transactions/{id}')
     config.add_route('withdrawals', '/withdrawals')
     config.add_route('withdrawal', '/withdrawals/{id}')
+    config.add_route('users', '/users')
+    config.add_route('user', '/users/{id}')

@@ -16,6 +16,8 @@ CREATE TABLE campaign_types (
 -- Users
 CREATE TABLE users (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  nik TEXT,
+  prodi TEXT,
   name TEXT,
   email TEXT,
   role TEXT,

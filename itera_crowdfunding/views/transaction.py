@@ -3,13 +3,16 @@ from pyramid.response import Response
 from itera_crowdfunding.supabase_client import supabase
 from itera_crowdfunding.schemas.transaction import TransactionCreate, TransactionUpdate
 from pydantic import ValidationError
+from itera_crowdfunding.middleware import auth_required
 
 @view_config(route_name='transactions', request_method='GET', renderer='json')
+@auth_required
 def get_transactions(request):
     res = supabase.table('transactions').select("*").execute()
     return res.data
 
 @view_config(route_name='transaction', request_method='GET', renderer='json')
+@auth_required
 def get_transaction(request):
     transaction_id = request.matchdict['id']
     res = supabase.table('transactions').select("*").eq("id", transaction_id).execute()
@@ -18,6 +21,7 @@ def get_transaction(request):
     return Response(status=404, json_body={'error': 'Not found'})
 
 @view_config(route_name='transactions', request_method='POST', renderer='json')
+@auth_required
 def create_transaction(request):
     try:
         transaction = TransactionCreate(**request.json_body)
@@ -28,6 +32,7 @@ def create_transaction(request):
     return res.data
 
 @view_config(route_name='transaction', request_method='PUT', renderer='json')
+@auth_required
 def update_transaction(request):
     transaction_id = request.matchdict['id']
     try:
@@ -39,6 +44,7 @@ def update_transaction(request):
     return res.data
 
 @view_config(route_name='transaction', request_method='DELETE', renderer='json')
+@auth_required
 def delete_transaction(request):
     transaction_id = request.matchdict['id']
     supabase.table('transactions').delete().eq("id", transaction_id).execute()

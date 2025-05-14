@@ -43,6 +43,7 @@ def update_campaign(request):
     return res.data
 
 @view_config(route_name='campaign', request_method='DELETE', renderer='json')
+@auth_required
 def delete_campaign(request):
     campaign_id = request.matchdict['id']
     res = supabase.table('campaigns').delete().eq("id", campaign_id).execute()

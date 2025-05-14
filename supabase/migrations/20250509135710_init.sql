@@ -20,6 +20,7 @@ CREATE TABLE users (
   email TEXT,
   role TEXT,
   photo_url TEXT,
+  total_donation INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT now()
 );
 

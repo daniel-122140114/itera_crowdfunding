@@ -43,3 +43,12 @@ def delete_donation(request):
     donation_id = request.matchdict['id']
     supabase.table('donations').delete().eq("id", donation_id).execute()
     return {"message": "deleted"}
+@view_config(route_name="get_top_donation",request_method="GET",renderer="json")
+def get_top_donation(request):
+    res = supabase.table('users').select("*").order('total_donation',dec=True).limit(25).execute()
+    return res.data
+@view_config(route_name="get_campaign_donation",request_method="GET",renderer="json")
+def get_campaign_donation(request):
+    campaign_id = request.matchdict['id']
+    res = supabase.table('donations').select("*").order('created_at').eq('campaign_id',campaign_id).execute()
+    return res.data

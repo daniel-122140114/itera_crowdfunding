@@ -8,7 +8,7 @@ from itera_crowdfunding.middleware import auth_required
 @view_config(route_name='withdrawals', request_method='GET', renderer='json')
 @auth_required
 def get_withdrawals(request):
-    res = supabase.table('fund_withdrawals').select("*").execute()
+    res = supabase.table('fund_withdrawals').select("id,amount,withdrawal_date,status,created_at,created_by (id,nik,prodi,name,email,photo_url)").execute()
     return res.data
 
 @view_config(route_name='withdrawal', request_method='GET', renderer='json')

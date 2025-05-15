@@ -8,7 +8,7 @@ import json
 
 @view_config(route_name='campaigns',request_method='GET', renderer='json')
 def get_campaigns(request):
-    res = supabase.table('campaigns').select("*").execute()
+    res = supabase.table('campaigns').select("id,title,description,type_id,image_url,target_amount,current_amount,status,is_urgent,created_by (id, nik, prodi, email, name, photo_url),created_at").eq('status','approved').order("created_at",desc=True).order('is_urgent').execute()
     return res.data
 
 @view_config(route_name='campaigns', request_method='POST', renderer='json')
@@ -25,7 +25,7 @@ def create_campaign(request):
 @view_config(route_name='campaign',request_method="GET", renderer='json')
 def get_campaign(request):
     campaign_id = request.matchdict['id']
-    res = supabase.table('campaigns').select("*").eq("id", campaign_id).execute()
+    res = supabase.table('campaigns').select("id,title,description,type_id,image_url,target_amount,current_amount,status,is_urgent,created_by (id, nik, prodi, email, name, photo_url),created_at").eq("id", campaign_id).execute()
     if res.data:
         return res.data[0]
     return Response(status=404, json_body={'error': 'Not found'})
@@ -48,3 +48,12 @@ def delete_campaign(request):
     campaign_id = request.matchdict['id']
     res = supabase.table('campaigns').delete().eq("id", campaign_id).execute()
     return {"message": "deleted"}
+@view_config(route_name="campaign_type",request_method="GET",renderer="json")
+def get_campaign_type(request):
+    res = supabase.table('campaign_types').select("*").execute()
+    return res.data
+@view_config(route_name="campaign_request",request_method="GET",renderer="json")
+@auth_required
+def campaign_request(request):
+    res = supabase.table('campaigns').select("id,title,description,type_id,image_url,target_amount,current_amount,status,is_urgent,created_by (id, nik, prodi, email, name, photo_url),created_at").eq('status','pending').order("created_at",desc=True).order('is_urgent').execute()
+    return res.data

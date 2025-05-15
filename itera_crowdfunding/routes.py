@@ -3,6 +3,7 @@ def includeme(config):
     config.add_route('home', '/')
     config.add_route('campaigns', '/campaigns')
     config.add_route('campaign', '/campaigns/{id}')
+    config.add_route('campaign_type','/types/campaign')
     config.add_route('get_top_donation','/donations/top')
     config.add_route('get_campaign_donations','/campaigns/{id}/donations')
     config.add_route('get_token','/token')
@@ -14,3 +15,6 @@ def includeme(config):
     config.add_route('withdrawal', '/withdrawals/{id}')
     config.add_route('users', '/users')
     config.add_route('user', '/users/{id}')
+    config.add_route('upload_image', '/upload/image')
+    config.add_route('campaign_request','/campaign-request')
+

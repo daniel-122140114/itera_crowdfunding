@@ -45,7 +45,7 @@ CREATE TABLE campaigns (
 CREATE TABLE donations (
   id SERIAL PRIMARY KEY,
   campaign_id INT REFERENCES campaigns(id),
-  donor_id UUID REFERENCES users(id),
+  donor UUID REFERENCES users(id),
   amount NUMERIC NOT NULL,
   is_anonymous BOOLEAN DEFAULT FALSE,
   message TEXT,

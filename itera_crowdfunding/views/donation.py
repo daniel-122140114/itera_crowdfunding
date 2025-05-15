@@ -5,6 +5,7 @@ from itera_crowdfunding.schemas.donation import DonationCreate, DonationUpdate
 from pydantic import ValidationError
 from itera_crowdfunding.middleware import auth_required
 @view_config(route_name='donations', request_method='GET', renderer='json')
+@auth_required
 def get_donations(request):
     res = supabase.table('donations').select("*").execute()
     return res.data
@@ -48,10 +49,10 @@ def delete_donation(request):
     return {"message": "deleted"}
 @view_config(route_name="get_top_donation",request_method="GET",renderer="json")
 def get_top_donation(request):
-    res = supabase.table('users').select("*").order('total_donation',dec=True).limit(25).execute()
+    res = supabase.table('users').select("*").order('total_donation',desc=True).limit(25).execute()
     return res.data
 @view_config(route_name="get_campaign_donations",request_method="GET",renderer="json")
 def get_campaign_donation(request):
     campaign_id = request.matchdict['id']
-    res = supabase.table('donations').select("*").order('created_at').eq('campaign_id',campaign_id).execute()
+    res = supabase.table('donations').select("id,campaign_id,amount,is_anonymous,message,donor (id,name,prodi,nik,email,photo_url)").order('created_at').eq('campaign_id',campaign_id).execute()
     return res.data

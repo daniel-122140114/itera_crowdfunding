@@ -5,18 +5,26 @@
   </a>
 </p>
 
-> ITERA Crowdfunding merupakan platform donasi untuk mahasiswa ITERA yang membutuhkan
+> ITERA Crowdfunding adalah sebuah platform donasi resmi yang didedikasikan untuk mendukung mahasiswa Institut Teknologi Sumatera (ITERA) yang sedang mengalami kesulitan finansial. Melalui platform ini, civitas akademika dan masyarakat umum dapat berkontribusi secara langsung untuk membantu mahasiswa yang membutuhkan bantuan dalam bentuk dana darurat, pembiayaan pendidikan, atau kebutuhan mendesak lainnya.
 
 ## Install
 
 ```sh
-pip install -r requirements
+python3 -m venv env
+```
+
+```sh
+source env/bin/activate
+```
+
+```sh
+env/bin/pip install -r requirements.txt
 ```
 
 ## Usage
 
 ```sh
-pserve development.ini --reload
+env/bin/pserve development.ini --reload
 ```
 
 ## Author

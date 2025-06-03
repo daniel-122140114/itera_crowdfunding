@@ -1,0 +1,9 @@
+pydantic
+uuid
+python-jose
+supabase
+requests
+midtransclient
+python-dotenv
+pyramid==2.0.2
+waitress

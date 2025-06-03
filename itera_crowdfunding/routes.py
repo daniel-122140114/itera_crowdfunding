@@ -8,6 +8,7 @@ def includeme(config):
     config.add_route('get_campaign_donations','/campaigns/{id}/donations')
     config.add_route('get_token','/token')
     config.add_route('donations', '/donations')
+    config.add_route('get_all_donation', '/donations/all')
     config.add_route('donation', '/donations/{id}')
     config.add_route('transactions', '/transactions')
     config.add_route('transaction', '/transactions/{id}')
@@ -17,4 +18,7 @@ def includeme(config):
     config.add_route('user', '/users/{id}')
     config.add_route('upload_image', '/upload/image')
     config.add_route('campaign_request','/campaign-request')
+    config.add_route('donation_create_payment', '/donation/create')
+    config.add_route("midtrans_webhook", "/webhook/midtrans")
+    config.add_route("user_donations", "/user-donations/{id}")
 
